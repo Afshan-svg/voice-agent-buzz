@@ -1,11 +1,14 @@
 # Render Blueprint — deploy via Dashboard: New > Blueprint > connect repo
 # Docs: https://render.com/docs/blueprint-spec
+#
+# Plans below use Render FREE tier (good for testing/hobby).
+# For production: change plan to "starter" on web, redis, and buzznessai-db.
 
 services:
   - type: web
     name: buzznessai-hotel
     runtime: docker
-    plan: starter
+    plan: free
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -45,11 +48,11 @@ services:
 
   - type: redis
     name: buzznessai-redis
-    plan: starter
+    plan: free
     maxmemoryPolicy: allkeys-lru
     ipAllowList: []
 
 databases:
   - name: buzznessai-db
-    plan: starter
+    plan: free
     postgresMajorVersion: "16"
