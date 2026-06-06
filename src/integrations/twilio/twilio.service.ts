@@ -4,14 +4,37 @@ import { logger } from '../../utils/logger';
 
 const { VoiceResponse } = twilio.twiml;
 
+function isTwilioConfigured(): boolean {
+  const sid = env.TWILIO_ACCOUNT_SID?.trim();
+  const token = env.TWILIO_AUTH_TOKEN?.trim();
+
+  if (!sid || !token) {
+    return false;
+  }
+
+  if (!sid.startsWith('AC')) {
+    logger.warn('Twilio disabled — TWILIO_ACCOUNT_SID must start with AC');
+    return false;
+  }
+
+  if (token.startsWith('your-') || token === 'your-twilio-auth-token') {
+    return false;
+  }
+
+  return true;
+}
+
 export class TwilioService {
   private readonly client: twilio.Twilio | null;
 
   constructor() {
-    this.client =
-      env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN
-        ? twilio(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN)
-        : null;
+    this.client = isTwilioConfigured()
+      ? twilio(env.TWILIO_ACCOUNT_SID!, env.TWILIO_AUTH_TOKEN!)
+      : null;
+
+    if (!this.client) {
+      logger.warn('Twilio client not configured — phone and WhatsApp features disabled');
+    }
   }
 
   getMediaStreamUrl(): string {
