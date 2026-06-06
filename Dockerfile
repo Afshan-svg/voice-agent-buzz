@@ -32,7 +32,7 @@ ENV NODE_ENV=production
 RUN apk add --no-cache dumb-init
 
 COPY package*.json ./
-RUN npm ci --omit=dev && npm install prisma@6.9.0 tsx@4.19.4 --no-save
+RUN npm ci --omit=dev
 
 COPY --from=backend-builder /app/dist ./dist
 COPY --from=backend-builder /app/node_modules/.prisma ./node_modules/.prisma

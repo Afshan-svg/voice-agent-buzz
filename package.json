@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "tsx watch src/app.ts",
-    "build": "tsc",
+    "build": "tsc && tsc prisma/seed.ts --outDir dist --rootDir prisma --module commonjs --target ES2022 --esModuleInterop --skipLibCheck",
     "start": "node dist/app.js",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -25,10 +25,11 @@
     "node": ">=20.0.0"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "node dist/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",
+    "prisma": "^6.9.0",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -59,7 +60,6 @@
     "@types/pdf-parse": "^1.1.5",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.18.1",
-    "prisma": "^6.9.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
