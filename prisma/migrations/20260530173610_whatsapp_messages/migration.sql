@@ -4,9 +4,6 @@ CREATE TYPE "WhatsAppMessageStatus" AS ENUM ('QUEUED', 'SENT', 'DELIVERED', 'FAI
 -- CreateEnum
 CREATE TYPE "WhatsAppMessageType" AS ENUM ('BOOKING_CONFIRMATION', 'BOOKING_CANCELLATION');
 
--- DropIndex
-DROP INDEX "knowledge_chunks_embedding_hnsw_idx";
-
 -- CreateTable
 CREATE TABLE "whatsapp_messages" (
     "id" UUID NOT NULL,
