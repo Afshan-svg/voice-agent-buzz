@@ -41,7 +41,9 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 COPY prisma ./prisma
 COPY scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh && mkdir -p uploads
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+  && mkdir -p uploads \
+  && chown -R node:node /app
 
 EXPOSE 3000
 
